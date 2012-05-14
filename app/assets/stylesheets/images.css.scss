@@ -1,0 +1,28 @@
+// Place all the styles related to the Images controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body { background: #f9faec; font: 12px/1.35 Helvetica, sans-serif; }
+
+.wrapper { width: 80%; margin: 0 auto; }
+figure { display: inline-block; margin: 10px 20px 15px 0;
+	img { border: 8px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.2); max-height: 144px; }
+	
+	&.large { display: block;
+		img { max-height: 700px; -webkit-transform: rotate(0) !important; }
+	}
+	
+	&:nth-child(2n) img { -webkit-transform: rotate(1deg); }
+	&:nth-child(3n) img { -webkit-transform: rotate(-1deg); }
+	&:nth-child(4n) img { -webkit-transform: rotate(1.5deg); }
+	
+	a { color: #000; font-weight: 700; text-decoration: none; text-transform: lowercase;
+		date { display: block; color: #575757; font-weight: 100; }
+	}
+}
+
+div.pagination { text-align: center; background: #fff; padding: 8px; display: block; opacity: 1.4; font-size: 1.16666em; margin-bottom: 20px;
+	&:hover { opacity: 1; }
+	a { color: #bc362f; text-decoration: none; }
+	em { font-weight: 700; font-style: normal; }
+}
