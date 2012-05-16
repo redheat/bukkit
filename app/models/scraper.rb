@@ -1,21 +1,45 @@
 class Scraper
-  def self.scrape(url = 'http://bukk.it/')
+  def self.scrape(url)
+    if url == 'http://bukk.it/'
+      self.scrape_table url
+    else
+      self.scrape_fixed_width url
+    end
+  end
+  
+  def self.scrape_table(url = 'http://bukk.it/')
     agent = Mechanize.new
     page = agent.get url
     images = page.search '//tr[td[a[@href]]]'
 
-    images.each do |i|
-      self.delay.queue(i.to_html, url)
+    images.each do |row|
+      name = row.search('td/a[@href]/text()').to_s
+      modified = DateTime.parse row.search('td[@align=right]/text()').to_s
+
+      self.delay(:priority => 5).save_image(name, url, modified)
     end
   end
   
-  def self.queue(row, url)
-    row = Nokogiri::HTML::fragment row
-    name = row.search('td/a[@href]/text()').to_s
-    modified = DateTime.parse row.search('td[@align=right]/text()').to_s
-    
+  def self.scrape_fixed_width(url)
+    agent = Mechanize.new
+    page = agent.get url
+    section = page.search '//pre'
+
+    images = section.first.to_html.split("\n")
+    idx = images.index { |i| i.strip.match(/^<hr>/) } + 1
+    images.drop(idx).each do |i|
+      i.strip!
+      row = Nokogiri::HTML::fragment "<td>#{i}</td>"
+      name = row.search('a[@href]/text()').to_s
+      modified = DateTime.parse i[-30, 25].strip
+
+      self.delay(:priority => 10).save_image(name, url, modified)
+    end
+  end
+  
+  def self.save_image(name, url, modified)
     image = Image.new(:name => name, :url => "#{url}#{name}", :date_modified => modified)
-    Image.delay(:priority => 10).download(image.name, url) unless Image.exists?(image.name)
+    Image.download(image.name, url) unless Image.exists?(image.name)
     image.save
   end
 end
