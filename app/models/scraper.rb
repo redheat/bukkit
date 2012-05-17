@@ -26,20 +26,26 @@ class Scraper
     section = page.search '//pre'
 
     images = section.first.to_html.split("\n")
-    idx = images.index { |i| i.strip.match(/^<hr>/) } + 1
+    idx = images.index { |i| !i.nil? && i.strip.match(/^<hr>/) } + 1
     images.drop(idx).each do |i|
-      i.strip!
-      row = Nokogiri::HTML::fragment "<td>#{i}</td>"
-      name = row.search('a[@href]/text()').to_s
-      modified = DateTime.parse i[-30, 25].strip
+      if !i.nil?
+        i.strip!
+        row = Nokogiri::HTML::fragment "<td>#{i}</td>"
+        name = row.search('a[@href]/text()').to_s
+        modified = DateTime.parse i[-30, 25].strip
 
-      self.delay(:priority => 10).save_image(name, url, modified)
+        self.delay(:priority => 5).save_image(name, url, modified)
+      end
     end
   end
   
   def self.save_image(name, url, modified)
-    image = Image.new(:name => name, :url => "#{url}#{name}", :date_modified => modified)
-    Image.download(image.name, url) unless Image.exists?(image.name)
-    image.save
+    if name.ends_with? '/'
+      self.delay(:priority => 20).scrape_fixed_width("#{url}#{name}")
+    else
+      image = Image.new(:name => name, :url => "#{url}#{name}", :date_modified => modified)
+      Image.download(image.name, url) unless Image.exists?(image.name)
+      image.save
+    end
   end
 end
