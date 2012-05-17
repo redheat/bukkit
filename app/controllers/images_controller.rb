@@ -4,11 +4,7 @@ class ImagesController < ApplicationController
   def index    
     @images = Image.paginate :page => params[:page], :order => 'date_modified DESC', :per_page => 50
     @images.delete_if { |i| !Image.exists? i.name }
-    
-    Scraper.delay(:priority => 20).scrape_table 'http://bukk.it/'
-    Scraper.delay(:priority => 20).scrape_fixed_width 'http://www.runswithscissors.info/images/funny/'
-    Scraper.delay(:priority => 20).scrape_fixed_width 'http://www.roeiboot.com/funny/Pics/'
-    
+        
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @images }
