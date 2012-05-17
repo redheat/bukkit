@@ -9,7 +9,7 @@ class Image < ActiveRecord::Base
   
   def self.download(name, url)
     File.open("#{Rails.root}/public/downloads/#{name}", 'w') do |f|
-      uri = URI.parse "#{url}#{name}"
+      uri = URI.parse "#{url}#{name}".gsub(/\s/, '%20')
       Net::HTTP.start(uri.host, uri.port) do |http|
         http.request_get(uri.path) do |res|
           res.read_body { |seg|
