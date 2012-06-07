@@ -1,10 +1,9 @@
 class ImagesController < ApplicationController
   # GET /images
   # GET /images.json
-  def index    
+  def index
     @images = Image.paginate :page => params[:page], :order => 'date_modified DESC', :per_page => 50
-    @images.delete_if { |i| !Image.exists? i.name }
-        
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @images }
@@ -16,8 +15,6 @@ class ImagesController < ApplicationController
   def show
     @image = Image.find(params[:id])
     
-    Image.delay.download(@image.name, 'http://bukk.it/') unless Image.exists?(@image.name)
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @image }

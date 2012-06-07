@@ -16,7 +16,7 @@ class Scraper
       name = row.search('td/a[@href]/text()').to_s
       modified = DateTime.parse row.search('td[@align=right]/text()').to_s
 
-      self.delay(:priority => 5).save_image(name, url, modified)
+      self.save_image(name, url, modified)
     end
   end
   
@@ -27,14 +27,22 @@ class Scraper
 
     images = section.first.to_html.split("\n")
     idx = images.index { |i| !i.nil? && i.strip.match(/^<hr>/) } + 1
+    
+    puts idx
+    
     images.drop(idx).each do |i|
       if !i.nil?
         i.strip!
-        row = Nokogiri::HTML::fragment "<td>#{i}</td>"
-        name = row.search('a[@href]/text()').to_s
-        modified = DateTime.parse i[-30, 25].strip
+        begin
+          row = Nokogiri::HTML::fragment "<td>#{i}</td>"
+          name = row.search('a[@href]/@href').to_s.split('/').last
+          modified = DateTime.parse i[-30, 25].strip
 
-        self.delay(:priority => 5).save_image(name, url, modified)
+          self.save_image(name, url, modified)
+        rescue NoMethodError => e
+          # assuming the date can’t be found
+          # puts e
+        end
       end
     end
   end
