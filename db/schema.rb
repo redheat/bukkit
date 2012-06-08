@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120511151820) do
+ActiveRecord::Schema.define(:version => 20120608080826) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(:version => 20120511151820) do
     t.string   "name"
     t.string   "url"
     t.datetime "date_modified"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "images", ["date_modified"], :name => "users_modified_order_index"
+  add_index "images", ["url"], :name => "images_url_index", :unique => true
+
+  create_table "scrapers", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
