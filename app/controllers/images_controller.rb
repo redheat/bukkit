@@ -2,7 +2,7 @@ class ImagesController < ApplicationController
   # GET /images
   # GET /images.json
   def index
-    @images = Image.paginate :page => params[:page], :order => 'date_modified DESC', :per_page => 50
+    @images = Image.where('name LIKE ?', "%#{params[:search]}%").paginate(:page => params[:page]).order('date_modified DESC')
 
     respond_to do |format|
       format.html # index.html.erb

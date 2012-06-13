@@ -3,6 +3,8 @@ class Image < ActiveRecord::Base
   validates :url, :presence => true
   validates_uniqueness_of :url
   
+  self.per_page = 40
+  
   def self.exists?(name)
     File.exists? "#{Rails.root}/public/downloads/#{name}"
   end

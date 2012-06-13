@@ -1,3 +1,8 @@
+<%= form_tag('/images', :method => 'get', :id => 'search_form') do %>
+	<input type="search" name="search" value="<%= params[:search] %>" placeholder="Search term" />
+	<input type="submit" value="Go" />
+<% end %>
+
 <%= will_paginate @images %>
 
 <% @images.each do |image| %>

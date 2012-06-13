@@ -4,7 +4,9 @@
 
 body { background: #f9faec; font: 12px/1.35 Helvetica, sans-serif; }
 
-.wrapper { width: 80%; margin: 0 auto; }
+#search_form { position: absolute; top: 1em; right: 0; }
+
+.wrapper { width: 80%; margin: 0 auto; position: relative; }
 figure { display: inline-block; margin: 10px 20px 15px 0;
 	img { border: 8px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.2); max-height: 144px; }
 	
