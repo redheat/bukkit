@@ -10,7 +10,7 @@ body { background: #f9faec; font: 12px/1.35 Helvetica, sans-serif; }
 
 #not-found { background: #fff; color: #ccc; text-align: center; padding: 8px; margin: 1em; font-size: 24px; }
 
-figure { display: inline-block; margin: 10px 20px 15px 0; position: relative;
+figure { vertical-align: top; display: inline-block; margin: 10px 20px 15px 0; position: relative;
 	span { background: #fc0; color: #fff; padding: 3px 6px; position: absolute; top: 5px; left: -5px; z-index: 10; }
 	img { border: 8px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.2); max-height: 144px; }
 	
@@ -26,6 +26,12 @@ figure { display: inline-block; margin: 10px 20px 15px 0; position: relative;
 		date { display: block; color: #575757; font-weight: 100; }
 	}
 }
+
+#new-image { box-shadow: 0 0 8px rgba(0,0,0,0.2); height: 152px; width: 152px; background: #fff; font-size: 100px; text-align: center;
+	a { color: #ccc; }
+}
+
+#notice { color: #bc362f; font-size: 1.2em; }
 
 div.pagination { text-align: center; background: #fff; padding: 8px; display: block; opacity: 1.4; font-size: 1.16666em; margin-bottom: 20px;
 	&:hover { opacity: 1; }

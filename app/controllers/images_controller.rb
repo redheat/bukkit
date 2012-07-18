@@ -2,6 +2,10 @@ class ImagesController < ApplicationController
   # GET /images
   # GET /images.json
   def index
+    if params[:page] == ''
+      params[:page] = 1
+    end
+    
     @images = Image.where('name LIKE ?', "%#{params[:search]}%").paginate(:page => params[:page]).order('date_modified DESC')
 
     respond_to do |format|
@@ -40,7 +44,16 @@ class ImagesController < ApplicationController
   # POST /images
   # POST /images.json
   def create
-    @image = Image.new(params[:image])
+    @image = Image.new
+    uploaded_io = params[:file]
+    
+    @image.name = uploaded_io.original_filename
+    @image.url = '/downloads/' + uploaded_io.original_filename
+    @image.date_modified = Time.now
+    
+    File.open(Rails.root.join('public', 'downloads', uploaded_io.original_filename), 'w') do |file|
+      file.write(uploaded_io.read)
+    end
 
     respond_to do |format|
       if @image.save

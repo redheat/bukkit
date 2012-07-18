@@ -9,6 +9,11 @@
 	<div id="not-found">no images found</div>
 <% end %>
 
+<figure id="new-image">
+	<a href="/images/new">+</a>
+</figure>
+
+
 <% @images.each do |image| %>
 	<figure>
 		<% if image.date_modified > 5.days.ago %>

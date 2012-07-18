@@ -48,12 +48,28 @@ class Scraper
     end
   end
   
+  def self.scrape_gimmebar(url)
+    raise 'Gimmebar uses backbone.js, so we can’t scrape it'
+    
+    agent = Mechanize.new
+    page = agent.get url
+    
+    blocks = page.search "//li[contains(@class, 'brick gimme-asset')]"
+    
+    blocks.each do |block|
+      name = block.search "//div[@class='brick-footer']//a/text()"
+      link = block.search "//a[@class='asset-wrap']/img[@class='image asset-self waiting-resize']/@href"
+      
+      self.save_image name, 'https://gimmebar.com' + url, nil
+    end
+  end
+  
   def self.save_image(name, url, modified)
     if name.ends_with? '/'
       self.delay(:priority => 20).scrape_fixed_width("#{url}#{name}")
     else
       image = Image.new(:name => name, :url => "#{url}#{name}", :date_modified => modified)
-      Image.download(image.name, url) unless Image.exists?(image.name)
+      Image.delay.download(image.name, url) unless Image.exists?(image.name)
       image.save
     end
   end
