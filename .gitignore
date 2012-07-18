@@ -4,3 +4,6 @@ log/*.log
 tmp/
 .sass-cache/
 public/downloads/*
+console
+
+.DS_Store
