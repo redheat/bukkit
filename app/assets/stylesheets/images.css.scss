@@ -29,6 +29,9 @@ figure { vertical-align: top; display: inline-block; margin: 10px 20px 15px 0; p
 
 #new-image { box-shadow: 0 0 8px rgba(0,0,0,0.2); height: 152px; width: 152px; background: #fff; font-size: 100px; text-align: center;
 	a { color: #ccc; }
+	
+	&.hover { background: green; }
+	&.loading { background: #bc362f; }
 }
 
 #notice { color: #bc362f; font-size: 1.2em; }
