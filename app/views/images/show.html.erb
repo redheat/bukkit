@@ -9,6 +9,6 @@
 <figure class="large">
 	<a href="<%= @image.url %>">
 	    <img src="/downloads/<%= @image.name %>" alt="<%= @image.name %>" />
-	    <figcaption><%= @image.name %> <date datetime="<%= @image.date_modified %>"><%= time_ago_in_words(@image.date_modified) %> ago</date></figcaption>
+	    <figcaption><b class="edit_name" data-id="<%= @image.id %>" contenteditable><%= @image.name %></b> <date datetime="<%= @image.date_modified %>"><%= time_ago_in_words(@image.date_modified) %> ago</date></figcaption>
 	</a>
 </figure>

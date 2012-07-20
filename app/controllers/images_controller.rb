@@ -70,11 +70,22 @@ class ImagesController < ApplicationController
   # PUT /images/1.json
   def update
     @image = Image.find(params[:id])
+    old_name = @image.name
 
     respond_to do |format|
       if @image.update_attributes(params[:image])
         format.html { redirect_to @image, :notice => 'Image was successfully updated.' }
         format.json { head :ok }
+        
+        if @image.url == '/downloads/' + old_name
+          @image.url = '/downloads/' + @image.name
+          @image.save
+        end
+        
+        File.rename(
+          Rails.root.join('public', 'downloads', old_name),
+          Rails.root.join('public', 'downloads', @image.name)
+        )
       else
         format.html { render :action => "edit" }
         format.json { render :json => @image.errors, :status => :unprocessable_entity }
