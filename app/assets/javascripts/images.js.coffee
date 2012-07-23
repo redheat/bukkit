@@ -66,14 +66,28 @@ $ ->
 		el.bind 'click', () ->
 			false
 			
+		el.bind 'keypress', (event) ->
+			if event.keyCode == 13
+				event.stopPropagation()
+				event.preventDefault()
+				
+				el.trigger 'blur'
+				return false
+			true
+			
 		el.bind 'blur', (event) ->
-			# console.log('saving', el, el.text().replace(/\n/g, ''))
-			$.ajax("/images/#{id}.json", {
-				type: 'put',
-				data: { 'image[name]': el.text().replace(/\n/g, '') }
-			}).done(() ->
-				el.blur().attr('contenteditable', null)
+			text = el.text().replace(/\n/g, '').replace(/\s/g, '-')
+			$.ajax({
+				url: "/images/#{id}.json",
+				type: 'PUT',
+				data: { 'image[name]': text }
+			}).done((data) ->
+				console.log el
+				el.text(html).blur()
+				el.closest('figure').hide().fadeIn 'slow'
 			)
+			
+		return $(el)
 	false
 	
 	

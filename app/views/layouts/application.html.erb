@@ -5,15 +5,19 @@
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+
+<!--[if lte IE 9]>
+<style type="text/css" media="screen">
+header h1 { background: url(/logo.png) no-repeat; }
+</style>
+<![endif]-->
 </head>
 <body>
 
 <div class="wrapper">
-	<h1><a href="/">
-		<object type="image/svg+xml" width="237" height="43" data="/logo.svg">
-			<span></span>
-		</object>
-	</a></h1>
+	<header>
+		<h1><a href="/">bukkit</a></h1>
+	</header>
 	<%= yield %>
 </div>
 </body>

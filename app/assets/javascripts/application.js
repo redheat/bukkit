@@ -7,3 +7,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+jQuery(function ($) {
+	$.each(['header', 'footer', 'article', 'section' ], function (_, el) {
+		document.createElement(el);
+	});
+});
