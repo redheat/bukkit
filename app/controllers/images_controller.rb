@@ -51,7 +51,7 @@ class ImagesController < ApplicationController
     @image.url = '/downloads/' + uploaded_io.original_filename
     @image.date_modified = Time.now
     
-    File.open(Rails.root.join('public', 'downloads', uploaded_io.original_filename), 'w') do |file|
+    File.open(Rails.root.join('public', 'downloads', uploaded_io.original_filename), 'w:ASCII-8BIT') do |file|
       file.write(uploaded_io.read)
     end
 

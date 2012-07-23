@@ -49,7 +49,7 @@ class Scraper
   end
   
   def self.scrape_gimmebar(url)
-    raise 'Gimmebar uses backbone.js, so we can’t scrape it'
+    raise 'Gimmebar uses backbone.js, so we can\'t scrape it'
     
     agent = Mechanize.new
     page = agent.get url
