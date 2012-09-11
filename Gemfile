@@ -31,3 +31,4 @@ gem 'jquery-rails'
 gem 'delayed_job_active_record'
 gem 'mechanize'
 gem 'will_paginate'
+# gem 'nokogiri', "~> 1.5.5"
