@@ -17,7 +17,7 @@ header {
 }
 figure { vertical-align: top; display: inline-block; margin: 10px 20px 15px 0; position: relative;
 	span { background: #fc0; color: #fff; padding: 3px 6px; position: absolute; top: 5px; left: -5px; z-index: 10; }
-	img { border: 8px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.2); max-height: 144px; }
+	img { border: 8px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.2); max-height: 144px; max-width: 144px; }
 	
 	&.large { display: block;
 		img { max-height: 700px; -webkit-transform: rotate(0) !important; }

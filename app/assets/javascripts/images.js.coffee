@@ -2,7 +2,31 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+
 document.createElement(el) for el in ['header', 'footer', 'article', 'section']
+
+debounce = (func, threshold, execAsap) ->
+    timeout = false
+    
+    return debounced = ->
+      obj = this
+      args = arguments
+      
+      delayed = ->
+        func.apply(obj, args) unless execAsap
+        timeout = null
+      
+      if timeout
+        clearTimeout(timeout)
+      else if (execAsap)
+        func.apply(obj, args)
+      
+      timeout = setTimeout delayed, threshold || 250
+  
+  # Smartscroll
+  jQuery.fn['smartscroll'] = (fn) ->
+    if fn then this.bind('scroll', debounce(fn)) else this.trigger('smartscroll')
+
 
 $ ->
 	$.event.props.push 'dataTransfer'
@@ -84,12 +108,40 @@ $ ->
 				type: 'PUT',
 				data: { 'image[name]': text }
 			}).done((data) ->
-				console.log el
+				# console.log el
 				el.text(html).blur()
 				el.closest('figure').hide().fadeIn 'slow'
 			)
 			
 		return $(el)
+
+	rows = {};
+	$('img[data-src]').each (i, image) ->
+		top = Math.round($(image).offset().top)
+		rows[top] = [] if !rows[top]
+		rows[top].push image
+
+	$(window).smartscroll () ->
+		# console.log 'scrolled'
+		t = $(window).scrollTop()
+		limit = Math.round($(window).height() + t) + 144
+		
+		$.each rows, (i, key) ->
+			if (i <= limit)
+				$.each key, (j, el) ->
+					if $(el).attr('src') == '/blank.gif'
+						# console.log 'Loading', el
+						$(el).attr('src', $(el).attr('data-src'))
+			
+			if (i < (t - 144))
+				$.each key, (j, el) ->
+					if $(el).attr('src') != '/blank.gif'
+						# console.log 'Hiding', el
+						$(el).attr('src', '/blank.gif')
+
+	$(window).load () ->
+		$(window).scrollTop(1).scrollTop(0) if $(window).scrollTop() == 0
+
 	false
 	
 	

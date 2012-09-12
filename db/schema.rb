@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120608080826) do
+ActiveRecord::Schema.define(:version => 20120912150008) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -35,6 +35,10 @@ ActiveRecord::Schema.define(:version => 20120608080826) do
     t.datetime "date_modified"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "width"
+    t.integer  "height"
+    t.integer  "thumbnail_width"
+    t.integer  "thumbnail_height"
   end
 
   add_index "images", ["date_modified"], :name => "users_modified_order_index"
