@@ -124,7 +124,7 @@ $ ->
 	$(window).smartscroll () ->
 		# console.log 'scrolled'
 		t = $(window).scrollTop()
-		limit = Math.round($(window).height() + t) + 144
+		limit = Math.round($(window).height() + t)
 		
 		$.each rows, (i, key) ->
 			if (i <= limit)
@@ -133,7 +133,7 @@ $ ->
 						# console.log 'Loading', el
 						$(el).attr('src', $(el).attr('data-src'))
 			
-			if (i < (t - 144))
+			if (i < (t - 144) or i > limit)
 				$.each key, (j, el) ->
 					if $(el).attr('src') != '/blank.gif'
 						# console.log 'Hiding', el
