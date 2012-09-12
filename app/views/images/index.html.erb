@@ -20,7 +20,7 @@
 		<span>new</span>
 		<% end %>
 		<a href="/images/<%= image.id %>?page=<%= params[:page] || 1 %>">
-		    <img src="/blank.gif" data-src="/downloads/<%= image.name %>" width="<%= thumbnail_size(image)[:width] %>" height="<%= thumbnail_size(image)[:height] %>" alt="<%= image.name %>" />
+		    <img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="/downloads/<%= image.name %>" width="<%= thumbnail_size(image)[:width] %>" height="<%= thumbnail_size(image)[:height] %>" alt="<%= image.name %>" />
 		    <figcaption><b class="edit_name" data-id="<%= image.id %>" contenteditable><%= image.name %></b> <date datetime="<%= image.date_modified %>"><%= time_ago_in_words(image.date_modified) %> ago</date></figcaption>
 		</a>
 	</figure>

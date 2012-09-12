@@ -2,6 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+gif = 'data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
 
 document.createElement(el) for el in ['header', 'footer', 'article', 'section']
 
@@ -129,15 +130,15 @@ $ ->
 		$.each rows, (i, key) ->
 			if (i <= limit)
 				$.each key, (j, el) ->
-					if $(el).attr('src') == '/blank.gif'
+					if $(el).attr('src') == gif
 						# console.log 'Loading', el
 						$(el).attr('src', $(el).attr('data-src'))
 			
 			if (i < (t - 144) or i > limit)
 				$.each key, (j, el) ->
-					if $(el).attr('src') != '/blank.gif'
+					if $(el).attr('src') != gif
 						# console.log 'Hiding', el
-						$(el).attr('src', '/blank.gif')
+						$(el).attr('src', gif)
 
 	$(window).load () ->
 		$(window).scrollTop(1).scrollTop(0) if $(window).scrollTop() == 0
