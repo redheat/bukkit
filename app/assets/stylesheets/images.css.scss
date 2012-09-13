@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body { background: #f9faec; font: 12px/1.35 Helvetica, sans-serif; text-rendering: optimizeLegibility; }
+body { background: #f9faec; font: 12px/1.35 Helvetica, sans-serif; }
 
 #search_form { position: absolute; top: 1em; right: 0; }
 
@@ -20,12 +20,8 @@ figure { vertical-align: top; display: inline-block; margin: 10px 20px 15px 0; p
 	img { border: 8px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.2); max-height: 144px; max-width: 144px; }
 	
 	&.large { display: block;
-		img { max-height: 700px; max-width: 100%; -webkit-transform: rotate(0) !important; }
+		img { max-height: 700px; max-width: 100%; }
 	}
-	
-	&:nth-child(2n) img { -webkit-transform: rotate(1deg); }
-	&:nth-child(3n) img { -webkit-transform: rotate(-1deg); }
-	&:nth-child(4n) img { -webkit-transform: rotate(1.5deg); }
 	
 	a { color: #000; font-weight: 700; text-decoration: none; text-transform: lowercase;
 		date { display: block; color: #575757; font-weight: 100; }

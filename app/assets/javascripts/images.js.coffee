@@ -117,8 +117,14 @@ $ ->
 		return $(el)
 
 	rows = {};
+	blank_images = [];
+
 	$('img[data-src]').each (i, image) ->
-		top = Math.round($(image).offset().top)
+		image = $(image)
+		image.data('src', image.attr('data-src'))
+		blank_images.push image.data('src')
+
+		top = Math.round(image.offset().top)
 		rows[top] = [] if !rows[top]
 		rows[top].push image
 
@@ -130,15 +136,20 @@ $ ->
 		$.each rows, (i, key) ->
 			if (i <= limit)
 				$.each key, (j, el) ->
-					if $(el).attr('src') == gif
+					el = $(el)
+					index = blank_images.indexOf el.data('src')
+					if index > -1
 						# console.log 'Loading', el
-						$(el).attr('src', $(el).attr('data-src'))
+						blank_images.splice index, 1
+						el.attr('src', el.data('src'))
 			
 			if (i < (t - 144) or i > limit)
 				$.each key, (j, el) ->
-					if $(el).attr('src') != gif
+					el = $(el)
+					if blank_images.indexOf(el.data('src')) == -1
 						# console.log 'Hiding', el
-						$(el).attr('src', gif)
+						el.attr('src', gif)
+						blank_images.push el.data('src')
 
 	$(window).load () ->
 		$(window).scrollTop(1).scrollTop(0) if $(window).scrollTop() == 0
