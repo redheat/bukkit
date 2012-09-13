@@ -22,4 +22,41 @@ class Image < ActiveRecord::Base
       end
     end
   end
+
+  def update_sizes(name)
+    file = "#{Rails.root}/public/downloads/#{name}"
+    if File.exists?(file)
+      # begin
+        img = MiniMagick::Image::open(file)
+        width = img[:width]
+        height = img[:height]
+
+        if img[:width] >= img[:height]
+          thumbnail_width = 144
+          thumbnail_height = (144 / img[:width].to_f) * img[:height]
+        else
+          ratio = 144 / img[:height]
+          thumbnail_width = (144 / img[:height].to_f) * img[:width]
+          thumbnail_height = 144
+        end
+
+        return {
+          :width => width,
+          :height => height,
+          :thumbnail_width => thumbnail_width.round,
+          :thumbnail_height => thumbnail_height.round
+        }
+      # rescue
+      #   puts "Error #{$1}"
+      # end
+    
+    end
+
+    nil
+  end
+
+  def update_sizes!(name)
+    sizes = self.update_sizes(name)
+    self.update_attributes!(sizes) if !sizes.nil?
+  end
 end
