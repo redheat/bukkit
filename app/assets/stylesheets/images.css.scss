@@ -20,7 +20,7 @@ figure { vertical-align: top; display: inline-block; margin: 10px 20px 15px 0; p
 	img { border: 8px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.2); max-height: 144px; max-width: 144px; }
 	
 	&.large { display: block;
-		img { max-height: 700px; -webkit-transform: rotate(0) !important; }
+		img { max-height: 700px; max-width: 100%; -webkit-transform: rotate(0) !important; }
 	}
 	
 	&:nth-child(2n) img { -webkit-transform: rotate(1deg); }
