@@ -69,8 +69,10 @@ class Scraper
       self.delay(:priority => 20).scrape_fixed_width("#{url}#{name}")
     else
       image = Image.new(:name => name, :url => "#{url}#{name}", :date_modified => modified)
-      Image.delay.download(image.name, url) unless Image.exists?(image.name)
-      image.save
+      if !image.exists?
+        image.save
+        image.delay.download(url)
+      end
     end
   end
 end

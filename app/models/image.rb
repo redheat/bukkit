@@ -5,13 +5,17 @@ class Image < ActiveRecord::Base
   
   self.per_page = 40
   
-  def self.exists?(name)
-    File.exists? "#{Rails.root}/public/downloads/#{name}"
+  def path
+    Rails.root.join('public', 'downloads', name)
+  end
+
+  def exists?
+    File.exists? path
   end
   
-  def self.download(name, url)
-    File.open("#{Rails.root}/public/downloads/#{name}", 'w:ASCII-8BIT') do |f|
-      uri = URI.parse "#{url}#{name}".gsub(/\s/, '%20')
+  def download(url)
+    File.open(path, 'w:ASCII-8BIT') do |f|
+      uri = URI.parse "#{url}#{self.name}".gsub(/\s/, '%20')
       Net::HTTP.start(uri.host, uri.port) do |http|
         http.request_get(uri.path) do |res|
           res.read_body { |seg|
@@ -23,11 +27,10 @@ class Image < ActiveRecord::Base
     end
   end
 
-  def update_sizes(name)
-    file = "#{Rails.root}/public/downloads/#{name}"
-    if File.exists?(file)
+  def update_sizes
+    if exists?
       # begin
-        img = MiniMagick::Image::open(file)
+        img = MiniMagick::Image::open(path)
         width = img[:width]
         height = img[:height]
 
@@ -55,8 +58,8 @@ class Image < ActiveRecord::Base
     nil
   end
 
-  def update_sizes!(name)
-    sizes = self.update_sizes(name)
-    self.update_attributes!(sizes) if !sizes.nil?
+  def update_sizes!
+    sizes = update_sizes()
+    update_attributes!(sizes) if !sizes.nil?
   end
 end
