@@ -50,5 +50,7 @@ module Bukkit
     config.assets.version = '1.0'
     
     config.serve_static_assets = true
+
+    config.active_record.observers = :image_observer
   end
 end

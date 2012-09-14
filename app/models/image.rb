@@ -25,6 +25,8 @@ class Image < ActiveRecord::Base
         end
       end
     end
+
+    image.delay.update_sizes!
   end
 
   def update_sizes
