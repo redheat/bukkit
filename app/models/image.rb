@@ -26,7 +26,7 @@ class Image < ActiveRecord::Base
       end
     end
 
-    image.delay.update_sizes!
+    self.save
   end
 
   def update_sizes
@@ -63,5 +63,35 @@ class Image < ActiveRecord::Base
   def update_sizes!
     sizes = update_sizes()
     update_attributes!(sizes) if !sizes.nil?
+  end
+
+  def rename_file(old_name)
+    if self.url == '/downloads/' + old_name
+      self.url = '/downloads/' + self.name
+
+      File.rename(
+        Rails.root.join('public', 'downloads', old_name),
+        Rails.root.join('public', 'downloads', self.name)
+      )
+    end
+  end
+
+  def rename_file!(old_name)
+    self.rename_file(old_name)
+    self.save
+  end
+
+  def self.from_upload(uploaded_io)
+    image = Image.new
+    
+    @image.name = uploaded_io.original_filename
+    @image.url = '/downloads/' + uploaded_io.original_filename
+    @image.date_modified = Time.now
+    
+    File.open(Rails.root.join('public', 'downloads', uploaded_io.original_filename), 'w:ASCII-8BIT') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    image
   end
 end

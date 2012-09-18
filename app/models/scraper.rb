@@ -70,8 +70,7 @@ class Scraper
     else
       image = Image.new(:name => name, :url => "#{url}#{name}", :date_modified => modified)
       if !image.exists?
-        image.save
-        image.delay.download(url)
+        image.delay.download(url) if image.save
       end
     end
   end

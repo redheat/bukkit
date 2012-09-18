@@ -44,16 +44,7 @@ class ImagesController < ApplicationController
   # POST /images
   # POST /images.json
   def create
-    @image = Image.new
-    uploaded_io = params[:file]
-    
-    @image.name = uploaded_io.original_filename
-    @image.url = '/downloads/' + uploaded_io.original_filename
-    @image.date_modified = Time.now
-    
-    File.open(Rails.root.join('public', 'downloads', uploaded_io.original_filename), 'w:ASCII-8BIT') do |file|
-      file.write(uploaded_io.read)
-    end
+    @image = Image.from_upload(params[:file])
 
     respond_to do |format|
       if @image.save
@@ -77,15 +68,8 @@ class ImagesController < ApplicationController
         format.html { redirect_to @image, :notice => 'Image was successfully updated.' }
         format.json { head :ok }
         
-        if @image.url == '/downloads/' + old_name
-          @image.url = '/downloads/' + @image.name
-          @image.save
-        end
-        
-        File.rename(
-          Rails.root.join('public', 'downloads', old_name),
-          Rails.root.join('public', 'downloads', @image.name)
-        )
+        @image.rename_file(old_name)
+        @image.save
       else
         format.html { render :action => "edit" }
         format.json { render :json => @image.errors, :status => :unprocessable_entity }

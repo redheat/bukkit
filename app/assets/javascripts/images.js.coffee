@@ -123,6 +123,7 @@ $ ->
 		image = $(image)
 		image.data('src', image.attr('data-src'))
 		blank_images.push image.data('src')
+		image.css('opacity', 0)
 
 		top = Math.round(image.offset().top)
 		rows[top] = [] if !rows[top]
@@ -142,6 +143,10 @@ $ ->
 						# console.log 'Loading', el
 						blank_images.splice index, 1
 						el.attr('src', el.data('src'))
+						delay = Math.random() * 1000;
+						setTimeout((() =>
+							el.animate({ opacity: 1 }, 300)),
+							delay)
 			
 			if (i < (t - 144) or i > limit)
 				$.each key, (j, el) ->
@@ -150,6 +155,7 @@ $ ->
 						# console.log 'Hiding', el
 						el.attr('src', gif)
 						blank_images.push el.data('src')
+						el.css('opacity', 0)
 
 	$(window).load () ->
 		$(window).scrollTop(1).scrollTop(0) if $(window).scrollTop() == 0
