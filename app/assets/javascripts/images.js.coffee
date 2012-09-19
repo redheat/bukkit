@@ -90,7 +90,7 @@ $ ->
 		el = $(el)
 		id = $(el).attr 'data-id'
 		
-		el.bind 'click', () ->
+		el.bind 'click', ->
 			false
 			
 		el.bind 'keypress', (event) ->
@@ -129,7 +129,7 @@ $ ->
 		rows[top] = [] if !rows[top]
 		rows[top].push image
 
-	$(window).smartscroll () ->
+	$(window).smartscroll ->
 		# console.log 'scrolled'
 		t = $(window).scrollTop()
 		limit = Math.round($(window).height() + t)
@@ -157,7 +157,7 @@ $ ->
 						blank_images.push el.data('src')
 						el.css('opacity', 0)
 
-	$(window).load () ->
+	$(window).load ->
 		$(window).scrollTop(1).scrollTop(0) if $(window).scrollTop() == 0
 
 	false
