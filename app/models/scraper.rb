@@ -6,11 +6,11 @@ class Scraper
       self.scrape_fixed_width url
     end
   end
-  
+
   def self.extract_name(name)
     name.to_s.split('/').last
   end
-  
+
   def self.scrape_table(url = 'http://bukk.it/')
     agent = Mechanize.new
     page = agent.get url
@@ -23,7 +23,7 @@ class Scraper
       self.save_image(name, url, modified)
     end
   end
-  
+
   def self.scrape_fixed_width(url)
     agent = Mechanize.new
     page = agent.get url
@@ -31,7 +31,7 @@ class Scraper
 
     images = section.first.to_html.split("\n")
     idx = images.index { |i| !i.nil? && i.strip.match(/^<hr>/) } + 1
-    
+  
     images.drop(idx).each do |i|
       if !i.nil?
         i.strip!
@@ -41,7 +41,7 @@ class Scraper
           modified = DateTime.parse i[-30, 25].strip
 
           self.save_image(name, url, modified)
-        rescue NoMethodError => e
+        rescue NoMethodError => error
           # assuming the date can’t be found
         end
       end
@@ -50,16 +50,16 @@ class Scraper
   
   def self.scrape_gimmebar(url)
     raise 'Gimmebar uses backbone.js, so we can\'t scrape it'
-    
+  
     agent = Mechanize.new
     page = agent.get url
-    
+  
     blocks = page.search "//li[contains(@class, 'brick gimme-asset')]"
-    
+  
     blocks.each do |block|
       name = block.search "//div[@class='brick-footer']//a/text()"
       link = block.search "//a[@class='asset-wrap']/img[@class='image asset-self waiting-resize']/@href"
-      
+  
       self.save_image name, 'https://gimmebar.com' + url, nil
     end
   end

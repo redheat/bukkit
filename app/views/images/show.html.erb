@@ -1,14 +1,14 @@
 <div class="pagination">
-	<a href="/images/?page=<%= params[:page] %>">Back</a>
+    <a href="/images/?page=<%= params[:page] %>">Back</a>
 </div>
 
 <% if flash[:notice] %>
-	<p id="notice"><%= flash[:notice]%></p>
+<p id="notice"><%= flash[:notice]%></p>
 <% end %>
 
 <figure class="large">
-	<a href="<%= @image.url %>">
-	    <img src="/downloads/<%= @image.name %>" width="<%= @image.width %>" height="<%= @image.height %>" alt="<%= @image.name %>" />
-	    <figcaption><b class="edit_name" data-id="<%= @image.id %>" contenteditable><%= @image.name %></b> <date datetime="<%= @image.date_modified %>"><%= time_ago_in_words(@image.date_modified) %> ago</date></figcaption>
-	</a>
+    <a href="<%= @image.url %>">
+        <img src="/downloads/<%= @image.name %>" width="<%= @image.width %>" height="<%= @image.height %>" alt="<%= @image.name %>" />
+        <figcaption><b class="edit_name" data-id="<%= @image.id %>" contenteditable><%= @image.name %></b> <date datetime="<%= @image.date_modified %>"><%= time_ago_in_words(@image.date_modified) %> ago</date></figcaption>
+    </a>
 </figure>

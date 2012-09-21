@@ -1,29 +1,29 @@
 <%= form_tag('/images', :method => 'get', :id => 'search_form') do %>
-	<input type="search" name="search" value="<%= params[:search] %>" placeholder="Search term" />
-	<input type="submit" value="Go" />
+<input type="search" name="search" value="<%= params[:search] %>" placeholder="Search term" />
+<input type="submit" value="Go" />
 <% end %>
 
 <%= will_paginate @images %>
 
 <% if @images.length == 0 %>
-	<div id="not-found">no images found</div>
+<div id="not-found">no images found</div>
 <% end %>
 
 <figure id="new-image">
-	<a href="/images/new">+</a>
+    <a href="/images/new">+</a>
 </figure>
 
 
 <% @images.each do |image| %>
-	<figure>
-		<% if image.date_modified > 5.days.ago %>
-		<span>new</span>
-		<% end %>
-		<a href="/images/<%= image.id %>?page=<%= params[:page] || 1 %>">
-		    <img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="/downloads/<%= image.name %>" width="<%= thumbnail_size(image)[:width] %>" height="<%= thumbnail_size(image)[:height] %>" alt="<%= image.name %>" />
-		    <figcaption><b class="edit_name" data-id="<%= image.id %>" contenteditable><%= image.name %></b> <date datetime="<%= image.date_modified %>"><%= time_ago_in_words(image.date_modified) %> ago</date></figcaption>
-		</a>
-	</figure>
+<figure>
+    <% if image.date_modified > 5.days.ago %>
+    <span>new</span>
+    <% end %>
+    <a href="/images/<%= image.id %>?page=<%= params[:page] || 1 %>">
+        <img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="/downloads/<%= image.name %>" width="<%= thumbnail_size(image)[:width] %>" height="<%= thumbnail_size(image)[:height] %>" alt="<%= image.name %>" />
+        <figcaption><b class="edit_name" data-id="<%= image.id %>" contenteditable><%= image.name %></b> <date datetime="<%= image.date_modified %>"><%= time_ago_in_words(image.date_modified) %> ago</date></figcaption>
+    </a>
+</figure>
 <% end %>
 
 <%= will_paginate @images, :page_links => false %>

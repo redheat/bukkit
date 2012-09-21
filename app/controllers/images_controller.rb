@@ -1,12 +1,12 @@
 class ImagesController < ApplicationController
+  before_filter :find_image, :only => [:show, :edit, :update, :destroy]
+
   # GET /images
   # GET /images.json
   def index
-    if params[:page] == ''
-      params[:page] = 1
-    end
-    
-    @images = Image.where('name LIKE ?', "%#{params[:search]}%").paginate(:page => params[:page]).order('date_modified DESC')
+    page = params[:page] || 1
+
+    @images = Image.where('name LIKE ?', "%#{params[:search]}%").paginate(:page => page).order('date_modified DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -17,8 +17,6 @@ class ImagesController < ApplicationController
   # GET /images/1
   # GET /images/1.json
   def show
-    @image = Image.find(params[:id])
-    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @image }
@@ -38,7 +36,7 @@ class ImagesController < ApplicationController
 
   # GET /images/1/edit
   def edit
-    @image = Image.find(params[:id])
+
   end
 
   # POST /images
@@ -51,7 +49,7 @@ class ImagesController < ApplicationController
         format.html { redirect_to @image, :notice => 'Image was successfully created.' }
         format.json { render :json => @image, :status => :created, :location => @image }
       else
-        format.html { render :action => "new" }
+        format.html { render 'new' }
         format.json { render :json => @image.errors, :status => :unprocessable_entity }
       end
     end
@@ -60,18 +58,12 @@ class ImagesController < ApplicationController
   # PUT /images/1
   # PUT /images/1.json
   def update
-    @image = Image.find(params[:id])
-    old_name = @image.name
-
     respond_to do |format|
-      if @image.update_attributes(params[:image])
+      if @image.update_image(params[:image])
         format.html { redirect_to @image, :notice => 'Image was successfully updated.' }
         format.json { head :ok }
-        
-        @image.rename_file(old_name)
-        @image.save
       else
-        format.html { render :action => "edit" }
+        format.html { render 'edit' }
         format.json { render :json => @image.errors, :status => :unprocessable_entity }
       end
     end
@@ -80,7 +72,6 @@ class ImagesController < ApplicationController
   # DELETE /images/1
   # DELETE /images/1.json
   def destroy
-    @image = Image.find(params[:id])
     @image.destroy
 
     respond_to do |format|
@@ -88,4 +79,9 @@ class ImagesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  protected
+    def find_image
+      @image = Image.find(params[:id])
+    end
 end
