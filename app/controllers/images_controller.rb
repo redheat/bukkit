@@ -1,3 +1,5 @@
+# Handles the library
+
 class ImagesController < ApplicationController
   before_filter :find_image, :only => [:show, :edit, :update, :destroy]
 

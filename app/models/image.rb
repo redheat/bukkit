@@ -1,3 +1,6 @@
+# This is the main Image class
+# it does some stuff
+
 class Image < ActiveRecord::Base
   validates :name, :presence => true
   validates :url, :presence => true

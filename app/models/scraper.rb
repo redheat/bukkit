@@ -1,3 +1,5 @@
+# This handles downloading all files
+
 class Scraper
   def self.scrape(url)
     if url == 'http://bukk.it/'
